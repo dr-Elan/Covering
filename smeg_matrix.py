@@ -115,23 +115,17 @@ def keyle_menger_det(mtx_length, vtx):
 
 
 
-def get_matrix_lenght(lenth, cmfrU, vrtx):
-    row, col = lenth.nonzero()
-    data = [1.] * len(row)
+def get_matrix_lenght(lenth, cmfrU, vrtx, wgth):
+    
+    
+    new_length_matrix = sparse.coo_matrix( shape=(vrtx, vrtx), dtype = 'd').tocsc()
 
-    space_row = np.array(row)
-    space_col = np.array(col)
-    space_data = np.array(data)
-    new_length_matrix = sparse.coo_matrix((space_data, (space_row, space_col)), shape=(vrtx, vrtx), dtype = 'd').tocsc()
+   
+    for j in range(0, vrtx):
+        for i in range(0, vrtx):
+            new_length_matrix[i, j] = np.sqrt(cmfrU[[j]**2 +  cmfrU[[j]]**2 + 2*cmfrU[[j]]*cmfrU[[j]]*wght[i])
+            new_length_matrix[j, i] = np.sqrt(cmfrU[row[j]]**2 +  cmfrU[col[j]]**2 + 2*cmfrU[row[j]]*cmfrU[col[j]]*wght[i])
 
-    # print('to_dense:', lenth.todense())
-    # print('row:', row, 'col:', col, lenth.data)
-    # print('size_row:', len(row), 'size_col:', len(col), 'size_data: ', len(lenth.data))
-    for j in range(0, len(row)):
-        new_length_matrix[row[j], col[j]] = lenth[row[j], col[j]] * cmfrU[row[j]] * cmfrU[col[j]]
-        new_length_matrix[col[j], row[j]] = lenth[col[j], row[j]] * cmfrU[col[j]] * cmfrU[row[j]]
-        # for i in range(0, len(cmfrU)):
-    #     for j in range(0, len(cmfrU)):
 
     return new_length_matrix
 

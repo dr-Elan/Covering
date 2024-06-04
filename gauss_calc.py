@@ -28,6 +28,7 @@ class Gauss():
         for lfs in self.lst_fs:
             self.massiv_fasece.append(sorted([lfs[0], lfs[1], lfs[2]]))
         # print('создаём класс Gauss', 30)
+        
 
     def date_prepare(self):
         for j in range(0, self.mtx_lght.count_nonzero()):

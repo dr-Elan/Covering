@@ -35,9 +35,11 @@ for line in lines:  # все номера вершин загоним в спи�
 
 two_dim_lst_fs = []
 two_dim_lst_fs.append(list_faces)
+
 max_gauss_curv = np.ones(TIMES, float) # график максимальной кривизнв веришне 
 min_gauss_curv = np.ones(TIMES, float) # график минимальной кривизнв веришне
 gauss_curvature = np.zeros((VERTEX, TIMES), float) # гауссова кривизна в начальный момент времени
+radius_vertex = np.zeros((VERTEX, TIMES), float ) # матрица радиусов в точке
 length_complex = np.ones((EDGES, TIMES), float) # экспериментальная матрица для отображения длин рёбер
 
 adj_matx = adjacency_matrix(list_faces, VERTEX)  # матрица смежности длин рёбер
@@ -50,31 +52,11 @@ for i in range(0, VERTEX):
             adj_matx_numpy[i][j] = 0
 
 adj_matx_numpy.astype(int)
-##создаём файл и записываем в него матрицу смежности
-# degenerate_faces = []
-
-# print(degenerate_faces[0][0])
-myfile = open("/Users/ruslanpepa/CoveringFlow/string_mtx.txt", "w+")
-string_matrix = '{'
-for k in range(0, VERTEX):
-    string_matrix += "{"
-    for l in range(0, VERTEX):
-        if l != VERTEX-1:
-            string_matrix += (str(adj_matx_numpy[k][l].astype(int)) + ',')
-        else:
-            string_matrix += (str(adj_matx_numpy[k][l].astype(int)) )
-    if k != VERTEX-1:
-        string_matrix += "},"
-    else:
-        string_matrix += "}}"
 
 
-myfile.write(string_matrix + '\n' + '\n')
-myfile.close()
 
-
-range_of_length = 5.
-start_lenght = 2.
+range_of_length = 5. # выбираем диапозон, с которого будет изменяться значение радиусов в каждой точке
+start_lenght = 2. # диапозон заканчивается на 7
 
 length_complex = []
 length_complex.append(adj_matx)
@@ -83,9 +65,7 @@ while True:
     times_of_finding += 1
     print("times_of_finding:", times_of_finding)
     for i in range(0, VERTEX):
-        for j in range(i, VERTEX):
-            if adj_matx[i, j] != 0:
-                length_complex[0][i, j] = length_complex[0][j,i] = np.random.uniform(start_lenght, start_lenght + range_of_length)
+        radius_vertex[0][i] = np.random.uniform(start_lenght, start_lenght + range_of_length)
     while True:
         random_i = np.random.randint(0, VERTEX)
         random_j = np.random.randint(0, VERTEX)
@@ -93,6 +73,7 @@ while True:
             break
     
     # length_complex[0][random_i, random_j] = length_complex[0][random_j, random_i] = np.random.uniform(0.9, 1.2)
+    length_complex[0] = get_matrix_lenght(radius_vertex[0], weighted,len(radius_vertex[0]))
     Gauss_Curve = Gauss(length_complex[0], list_faces)
     Gauss_Curve.date_prepare()
     Gauss_Curve.gauss_calculate()
