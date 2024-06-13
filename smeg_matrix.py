@@ -115,19 +115,15 @@ def keyle_menger_det(mtx_length, vtx):
 
 
 
-def get_matrix_lenght(lenth, cmfrU, vrtx, wgth):
+def get_matrix_lenght(lng_mtx, cmfrU, wgth):
     
-    
-    new_length_matrix = sparse.coo_matrix( shape=(vrtx, vrtx), dtype = 'd').tocsc()
-
+    vrtx = len(cmfrU)
    
     for j in range(0, vrtx):
         for i in range(0, vrtx):
-            new_length_matrix[i, j] = np.sqrt(cmfrU[[j]**2 +  cmfrU[[j]]**2 + 2*cmfrU[[j]]*cmfrU[[j]]*wght[i])
-            new_length_matrix[j, i] = np.sqrt(cmfrU[row[j]]**2 +  cmfrU[col[j]]**2 + 2*cmfrU[row[j]]*cmfrU[col[j]]*wght[i])
+            lng_mtx[j, i]=lng_mtx[i, j] = np.sqrt(cmfrU[j]**2 +  cmfrU[i]**2 + 2*cmfrU[i]*cmfrU[j]*wgth[i,j])
+            
 
-
-    return new_length_matrix
 
 
 def get_lenght(matrix_lenght, vrtx):

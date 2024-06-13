@@ -38,9 +38,9 @@ two_dim_lst_fs.append(list_faces)
 
 max_gauss_curv = np.ones(TIMES, float) # график максимальной кривизнв веришне 
 min_gauss_curv = np.ones(TIMES, float) # график минимальной кривизнв веришне
-gauss_curvature = np.zeros((VERTEX, TIMES), float) # гауссова кривизна в начальный момент времени
-radius_vertex = np.zeros((VERTEX, TIMES), float ) # матрица радиусов в точке
-length_complex = np.ones((EDGES, TIMES), float) # экспериментальная матрица для отображения длин рёбер
+gauss_curvature = np.zeros((TIMES,VERTEX ), float) # гауссова кривизна в начальный момент времени
+radius_vertex = np.zeros((TIMES,VERTEX ), float ) # матрица радиусов в точке
+# length_complex = np.ones((EDGES, TIMES), float) # экспериментальная матрица для отображения длин рёбер
 
 adj_matx = adjacency_matrix(list_faces, VERTEX)  # матрица смежности длин рёбер
 adj_matx_numpy = adj_matx.toarray()
@@ -53,9 +53,16 @@ for i in range(0, VERTEX):
 
 adj_matx_numpy.astype(int)
 
+weighted_matrix = adjacency_matrix(list_faces, VERTEX).toarray() # матрица смежности для весов
+branch_order = 2 # переменная отвечающая за порядок ветвления. Сингулярность в вершине называется устранимой только если порядок ветвления равен 1
 
+    
+for i in range(0,VERTEX):
+    for j in range(i+1,VERTEX):
+        weighted_matrix[i,j] = weighted_matrix[j,i] = np.random.uniform()
+print("weighted matrix:", weighted_matrix)
 
-range_of_length = 5. # выбираем диапозон, с которого будет изменяться значение радиусов в каждой точке
+range_of_length = 1. # выбираем диапозон, с которого будет изменяться значение радиусов в каждой точке
 start_lenght = 2. # диапозон заканчивается на 7
 
 length_complex = []
@@ -73,7 +80,8 @@ while True:
             break
     
     # length_complex[0][random_i, random_j] = length_complex[0][random_j, random_i] = np.random.uniform(0.9, 1.2)
-    length_complex[0] = get_matrix_lenght(radius_vertex[0], weighted,len(radius_vertex[0]))
+    print("len_vertex: ", len(radius_vertex[0]))
+    get_matrix_lenght(length_complex[0], radius_vertex[0], weighted_matrix)
     Gauss_Curve = Gauss(length_complex[0], list_faces)
     Gauss_Curve.date_prepare()
     Gauss_Curve.gauss_calculate()
@@ -108,10 +116,10 @@ gauss_curve = Gauss_Curve.gauss_curve
 # ax.set_title("Harvest of local farmers (in tons/year)")
 # fig.tight_layout()
 # plt.show()
-
-for i in range(0, VERTEX):
-    gauss_curvature[i, 0] = gauss_curve[i]
-    print('gauss_curvature in vertex', i, gauss_curvature[i, 0])
+print(gauss_curve)
+# for i in range(0, VERTEX):
+#     gauss_curvature[i, 0] = gauss_curve[i]
+#     print('gauss_curvature in vertex', i, gauss_curvature[i, 0])
 
 
 sns.heatmap(length_complex[0].toarray(), annot=True)
