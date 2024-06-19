@@ -120,9 +120,10 @@ def get_matrix_lenght(lng_mtx, cmfrU, wgth):
     vrtx = len(cmfrU)
    
     for j in range(0, vrtx):
-        for i in range(0, vrtx):
-            lng_mtx[j, i]=lng_mtx[i, j] = np.sqrt(cmfrU[j]**2 +  cmfrU[i]**2 + 2*cmfrU[i]*cmfrU[j]*wgth[i,j])
-            
+        for i in range(j, vrtx):
+            if wgth[i,j] != 0:
+                lng_mtx[j, i]=lng_mtx[i, j] = np.sqrt(cmfrU[j]**2 +  cmfrU[i]**2 + 2*cmfrU[i]*cmfrU[j]*wgth[i,j])
+    return lng_mtx
 
 
 
