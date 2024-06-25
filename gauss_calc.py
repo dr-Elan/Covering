@@ -28,12 +28,12 @@ class Gauss():
         # print('создаём класс Gauss', 27)
         for lfs in self.lst_fs:
             self.massiv_fasece.append(sorted([lfs[0], lfs[1], lfs[2]]))
-            print('sorted([lfs[0], lfs[1], lfs[2]]):', sorted([lfs[0], lfs[1], lfs[2]]) )
+            # print('sorted([lfs[0], lfs[1], lfs[2]]):', sorted([lfs[0], lfs[1], lfs[2]]) )
         # print('создаём класс Gauss', 30)
         
 
     def date_prepare(self):
-        print('gauss calculate1111111111')
+        # print('gauss calculate1111111111')
         for j in range(0, self.mtx_lght.count_nonzero()):
             
             if self.row[j] not in self.dictinary_vertex.keys():
@@ -44,18 +44,18 @@ class Gauss():
             list_of_adjency_vertex = []
             for i in val:
                 for j in val:
-                    print('key, i, j:',sorted([key, i, j]))
+                    # print('key, i, j:',sorted([key, i, j]))
                     if self.mtx_lght[i, j] != 0 and self.mtx_lght[j, i] != 0 and (sorted([key, i, j]) in  self.massiv_fasece):
-                        print('self.mtx_lght[i, j]:', self.mtx_lght[i, j])
+                        # print('self.mtx_lght[i, j]:', self.mtx_lght[i, j])
                         list_of_adjency_vertex.append(sorted([i,j]))
                         # print('list_of_adjency_vertex:', sorted([i,j]) )
             self.dictinary_gauss[key] = list(map(list, {tuple(x) for x in list_of_adjency_vertex}))
-        for key, arr in self.dictinary_vertex.items():
-            print(key, '\t', arr)
-        print(51)    
-        for key, arr in self.dictinary_gauss.items():
-            print(key, '\t', arr)
-        print(54)
+        # for key, arr in self.dictinary_vertex.items():
+            # print(key, '\t', arr)
+        # print(51)    
+        # for key, arr in self.dictinary_gauss.items():
+            # print(key, '\t', arr)
+        # print(54)
         return None
             
     def gauss_calculate(self):
@@ -63,12 +63,12 @@ class Gauss():
         # exceptions = 0
         
         klmgn = set()
-        print('56 считаем здесь кривизну в вершине')
-        print('self.dictinary_gauss:',self.dictinary_gauss)
+        # print('56 считаем здесь кривизну в вершине')
+        # print('self.dictinary_gauss:',self.dictinary_gauss)
         for key, val in self.dictinary_gauss.items():
             for v in val:
-                print('v:',v)
-                print('val:', val)
+                # print('v:',v)
+                # print('val:', val)
                 a =  self.mtx_lght[v[0], v[1]]
                 b =  self.mtx_lght[v[1], key]
                 c =  self.mtx_lght[v[0], key]
@@ -79,12 +79,12 @@ class Gauss():
 
                 kl_mng = float("{0:.1f}".format(half_perim*(half_perim - a)*(half_perim - b) * (half_perim - c)))
                 klmgn.add(kl_mng)
-                print("klmgb:", kl_mng)
+                # print("klmgb:", kl_mng)
                 if kl_mng >= 0:
                     self.gauss_curve[key] -= np.arccos(c_cos)
-                    print("self.gauss_curve[key]:",self.gauss_curve[key])
+                    # print("self.gauss_curve[key]:",self.gauss_curve[key])
                 else:
-                    print("gauss_curve РАВНО НУЛЮ")
+                    # print("gauss_curve РАВНО НУЛЮ")
                     self.gauss_curve[key] = 0
                     self.existence = 1
     
